@@ -1,0 +1,9 @@
+.*
+*.egg-*
+__pycache__
+pkg
+build/
+!devops/
+env*
+*.zip
+!.gitignore
