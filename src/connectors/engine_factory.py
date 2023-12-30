@@ -1,9 +1,10 @@
-
 from pathlib import Path
 from typing import Dict
-from src.connectors.constants import DbTypes
+
 from sqlmodel import create_engine
 from yaml import safe_load
+
+from src.connectors.constants import DbTypes
 
 
 def read_config(filepath: Path) -> Dict[str, str]:
