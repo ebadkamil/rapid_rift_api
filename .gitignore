@@ -1,6 +1,7 @@
 .*
 *.egg-*
 __pycache__
+build/
 !devops/
 env*
 *.zip
