@@ -31,7 +31,9 @@ setup(
     install_requires=[
         "fastapi",
         "uvicorn",
-        "sqlmodel"
+        "sqlmodel",
+        "pyyaml",
+        "cx_oracle"
         ],
     extras_require={
         "test": [

@@ -49,7 +49,7 @@ class EngineFactory:
 
     @classmethod
     def from_database_type(cls, db_type: DbTypes):
-        if type in cls._engines:
+        if db_type in cls._engines:
             return cls._engines[db_type]
 
         raise NotImplementedError(f"Engine type {db_type} not implemented")
