@@ -20,5 +20,10 @@ steps:
   displayName: 'Install dependencies'
 
 - script: |
+    black --check src/ tests/
+    isort --profile black -c src/ tests/
+  displayName: "Formatting check"
+
+- script: |
     pytest -v tests/
-  displayName: 'pytest'
+  displayName: 'Unit tests'
