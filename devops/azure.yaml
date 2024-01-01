@@ -28,20 +28,20 @@ steps:
     pytest -v tests/
   displayName: 'Unit tests'
 
-- script: |
-    pip install build
-    pip install twine
-  displayName: 'Install build and twine'
+# - script: |
+#     pip install build
+#     pip install twine
+#   displayName: 'Install build and twine'
 
-- script: |
-    python -m build -w
-  displayName: 'Python build'
+# - script: |
+#     python -m build -w
+#   displayName: 'Python build'
 
-- task: TwineAuthenticate@1
-  inputs:
-    artifactFeed: ebadkamil/nexi-feed
-  displayName: 'Twine Authenticate'
+# - task: TwineAuthenticate@1
+#   inputs:
+#     artifactFeed: ebadkamil/nexi-feed
+#   displayName: 'Twine Authenticate'
 
-- script: |
-    python -m twine upload -r nexi-feed --config-file $(PYPIRC_PATH) dist/*.whl
-  displayName: 'Upload to feed'
+# - script: |
+#     python -m twine upload -r nexi-feed --config-file $(PYPIRC_PATH) dist/*.whl
+#   displayName: 'Upload to feed'
