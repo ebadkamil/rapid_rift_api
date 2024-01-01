@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Dict
 
-from sqlmodel import create_engine
+import sqlmodel
 from yaml import safe_load
 
 from src.connectors.constants import DbTypes
@@ -37,7 +37,7 @@ class OracleEngine(BaseEngine):
         super().__init__(authentication)
 
     def get_engine(self):
-        return create_engine(
+        return sqlmodel.create_engine(
             f"oracle+cx_oracle://{self.user}:{self.passd}@{self.host}:{self.port}/?service_name={self.service}&{self.encoding}"
         )
 
