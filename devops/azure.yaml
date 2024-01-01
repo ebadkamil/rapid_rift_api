@@ -1,32 +1,64 @@
 trigger:
-- main
+- '*'
+
+variables:
+  - name: env_name
+    value: "rapid_rift_api_$(Build.BuildId)_env"
 
 pool:
-  vmImage: ubuntu-latest
-strategy:
-  matrix:
-    Python39:
-      python.version: '3.9'
+  vmImage: 'ubuntu-latest'
 
-steps:
-- task: UsePythonVersion@0
-  inputs:
-    versionSpec: '$(python.version)'
-  displayName: 'Use Python $(python.version)'
+jobs:
+- job: BuildTest
+  steps:
+  - bash: echo "##vso[task.prependpath]$CONDA/bin"
+    displayName: Add conda to PATH
 
-- script: |
-    python -m pip install --upgrade pip
-    pip install .[test]
-  displayName: 'Install dependencies'
+  - script: |
+      echo "Setting up build variables:"
+      echo "  Branch/tag: $(Build.SourceBranch)"
+      echo "  Local env: $(env_name)"
+    displayName: 'Initialize Variables'
 
-- script: |
-    black --check src/ tests/
-    isort --profile black -c src/ tests/
-  displayName: "Formatting check"
+  - script: |
+      conda create -n $(env_name) python=3.9 -y
+      source activate $(env_name)
+      which pip
+      pip install .[test]
+    displayName: 'Build Rapid-Rift-API Package'
 
-- script: |
-    pytest -v tests/
-  displayName: 'Unit tests'
+  - script: |
+      source activate $(env_name)
+      black --check nexi_beast/ tests/
+      isort --profile black -c nexi_beast/ tests/
+    displayName: 'Formatting Check'
+
+  - script: |
+      source activate $(env_name)
+      python -m pytest -v tests/
+    displayName: 'Run Unit Tests'
+
+- job: SendEmail
+  dependsOn: BuildTest
+  condition: always()
+  steps:
+  - script: |
+      echo "The build has finished"
+      echo "Author name $(author_name)"
+
+- job: OnSuccess
+  dependsOn: BuildTest
+  condition: succeeded()
+  steps:
+  - script: echo "The build succeeded"
+
+- job: OnFailure
+  dependsOn: BuildTest
+  condition: failed()
+  steps:
+  - script: echo "The build failed"
+
+# Add release artifacts later
 
 # - script: |
 #     pip install build
