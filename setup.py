@@ -30,10 +30,11 @@ setup(
     long_description_content_type="text/markdown",
     install_requires=[
         "fastapi",
-        "uvicorn",
+        "uvicorn[standard]",
         "sqlmodel",
         "pyyaml",
-        "cx_oracle"
+        "cx_oracle",
+        "typer[all]"
         ],
     extras_require={
         "test": [
