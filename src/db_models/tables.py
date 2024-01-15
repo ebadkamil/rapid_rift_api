@@ -28,7 +28,3 @@ class Mapping(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     line_id: Optional[int] = Field(default=None, foreign_key="production_line.id")
     order_id: Optional[int] = Field(default=None, foreign_key="order.id")
-
-
-if __name__ == "__main__":
-    pass
