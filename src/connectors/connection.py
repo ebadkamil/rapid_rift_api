@@ -17,3 +17,7 @@ class Connector:
 
     def get_table_names(self):
         return self._inspector.get_table_names()
+
+    @property
+    def engine(self):
+        return self._engine
