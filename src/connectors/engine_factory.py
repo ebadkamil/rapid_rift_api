@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Optional
 
 import sqlmodel
 from yaml import safe_load
@@ -19,14 +19,15 @@ def read_config(filepath: Path) -> Dict[str, str]:
 
 
 class BaseEngine:
-    def __init__(self, authentication):
-        config = read_config(authentication)
-        self.user = config["user"]
-        self.passd = config["password"]
-        self.host = config["host"]
-        self.port = config["port"]
-        self.service = config["service"]
-        self.encoding = config["encoding"]
+    def __init__(self, authentication, local_db: Optional[bool] = False):
+        self._config = read_config(authentication)
+        if not local_db:
+            self.user = self._config["user"]
+            self.passd = self._config["password"]
+            self.host = self._config["host"]
+            self.port = self._config["port"]
+            self.service = self._config["service"]
+            self.encoding = self._config["encoding"]
 
     def get_engine(self):
         raise NotImplementedError(f"Engine not implemented")
@@ -42,9 +43,18 @@ class OracleEngine(BaseEngine):
         )
 
 
+class SqliteEngine(BaseEngine):
+    def __init__(self, authentication, local_db=True):
+        super().__init__(authentication, local_db=local_db)
+
+    def get_engine(self):
+        return sqlmodel.create_engine(f"sqlite:///{self._config['database_file_name']}", echo=True)
+
+
 class EngineFactory:
     _engines = {
         DbTypes.ORACLE: OracleEngine,
+        DbTypes.SQLITE: SqliteEngine,
     }
 
     @classmethod
