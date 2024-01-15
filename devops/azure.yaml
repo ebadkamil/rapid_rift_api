@@ -29,8 +29,8 @@ jobs:
 
   - script: |
       source activate $(env_name)
-      black --check nexi_beast/ tests/
-      isort --profile black -c nexi_beast/ tests/
+      black --check src/ tests/
+      isort --profile black -c src/ tests/
     displayName: 'Formatting Check'
 
   - script: |
