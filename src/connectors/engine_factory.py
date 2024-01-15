@@ -48,7 +48,9 @@ class SqliteEngine(BaseEngine):
         super().__init__(authentication, local_db=local_db)
 
     def get_engine(self):
-        return sqlmodel.create_engine(f"sqlite:///{self._config['database_file_name']}", echo=True)
+        return sqlmodel.create_engine(
+            f"sqlite:///{self._config['database_file_name']}", echo=True
+        )
 
 
 class EngineFactory:
