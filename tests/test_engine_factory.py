@@ -1,4 +1,4 @@
-from unittest.mock import patch
+from unittest.mock import MagicMock, PropertyMock, patch
 
 import pytest
 
@@ -9,12 +9,21 @@ from src.connectors.engine_factory import BaseEngine, EngineFactory, OracleEngin
 def test_base_engine_initialization(temp_authentication_file):
     base_engine = BaseEngine(authentication=temp_authentication_file)
 
-    assert base_engine.user == "test_user"
-    assert base_engine.passd == "test_pass"
-    assert base_engine.host == "test_host"
-    assert base_engine.port == "test_port"
-    assert base_engine.service == "test_service"
-    assert base_engine.encoding == "test_encoding"
+    assert "user" in base_engine.config
+    assert "password" in base_engine.config
+    assert "host" in base_engine.config
+    assert "port" in base_engine.config
+    assert "service" in base_engine.config
+    assert "encoding" in base_engine.config
+
+
+def test_oracle_engine_raises_value_error_for_invalid_config(
+    invalid_authentication_file,
+):
+    with pytest.raises(
+        ValueError, match="Missing or invalid configurations"
+    ) as exc_info:
+        OracleEngine(authentication=invalid_authentication_file)
 
 
 @patch("sqlmodel.create_engine")

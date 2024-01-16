@@ -19,18 +19,16 @@ def read_config(filepath: Path) -> Dict[str, str]:
 
 
 class BaseEngine:
-    def __init__(self, authentication, local_db: Optional[bool] = False):
-        self._config = read_config(authentication)
-        if not local_db:
-            self.user = self._config["user"]
-            self.passd = self._config["password"]
-            self.host = self._config["host"]
-            self.port = self._config["port"]
-            self.service = self._config["service"]
-            self.encoding = self._config["encoding"]
+    def __init__(self, authentication):
+        self.config = read_config(authentication)
+        if not self.validate_config():
+            raise ValueError(f"Missing or invalid configurations: {self.config}")
 
     def get_engine(self):
         raise NotImplementedError(f"Engine not implemented")
+
+    def validate_config(self):
+        return True
 
 
 class OracleEngine(BaseEngine):
@@ -39,18 +37,32 @@ class OracleEngine(BaseEngine):
 
     def get_engine(self):
         return sqlmodel.create_engine(
-            f"oracle+cx_oracle://{self.user}:{self.passd}@{self.host}:{self.port}/?service_name={self.service}&{self.encoding}"
+            f"oracle+cx_oracle://{self.config['user']}:{self.config['password']}@{self.config['host']}:{self.config['port']}/?service_name={self.config['service']}&{self.config['encoding']}"
         )
+
+    def validate_config(self):
+        required_configurations = [
+            "user",
+            "password",
+            "host",
+            "port",
+            "service",
+            "encoding",
+        ]
+        return all([var in self.config for var in required_configurations])
 
 
 class SqliteEngine(BaseEngine):
-    def __init__(self, authentication, local_db=True):
-        super().__init__(authentication, local_db=local_db)
+    def __init__(self, authentication):
+        super().__init__(authentication)
 
     def get_engine(self):
         return sqlmodel.create_engine(
             f"sqlite:///{self._config['database_file_name']}", echo=True
         )
+
+    def validate_config(self):
+        return "database_file_name" in self.config
 
 
 class EngineFactory:

@@ -21,3 +21,18 @@ def temp_authentication_file():
 
     yield Path(temp_file.name)
     Path(temp_file.name).unlink()
+
+
+@pytest.fixture
+def invalid_authentication_file():
+    temp_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
+    auth_data = {
+        "incorrect_user_key": "test_user",
+        "password": "test_pass",
+        "encoding": "test_encoding",
+    }
+    yaml.dump(auth_data, temp_file)
+    temp_file.close()
+
+    yield Path(temp_file.name)
+    Path(temp_file.name).unlink()
