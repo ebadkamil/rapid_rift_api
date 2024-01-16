@@ -22,9 +22,7 @@ class BaseEngine:
     def __init__(self, authentication):
         self.config = read_config(authentication)
         if not self.validate_config():
-            raise ValueError(
-                f"Missing or invalid configurations: {self.config}"
-            )
+            raise ValueError(f"Missing or invalid configurations: {self.config}")
 
     def get_engine(self):
         raise NotImplementedError(f"Engine not implemented")
@@ -44,7 +42,12 @@ class OracleEngine(BaseEngine):
 
     def validate_config(self):
         required_configurations = [
-            "user", "password", "host", "port", "service", "encoding"
+            "user",
+            "password",
+            "host",
+            "port",
+            "service",
+            "encoding",
         ]
         return all([var in self.config for var in required_configurations])
 

@@ -17,7 +17,9 @@ def test_base_engine_initialization(temp_authentication_file):
     assert "encoding" in base_engine.config
 
 
-def test_oracle_engine_raises_value_error_for_invalid_config(invalid_authentication_file):
+def test_oracle_engine_raises_value_error_for_invalid_config(
+    invalid_authentication_file,
+):
     with pytest.raises(
         ValueError, match="Missing or invalid configurations"
     ) as exc_info:
