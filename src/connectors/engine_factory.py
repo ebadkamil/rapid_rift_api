@@ -58,7 +58,7 @@ class SqliteEngine(BaseEngine):
 
     def get_engine(self):
         return sqlmodel.create_engine(
-            f"sqlite:///{self._config['database_file_name']}", echo=True
+            f"sqlite:///{self.config['database_file_name']}", echo=True
         )
 
     def validate_config(self):
