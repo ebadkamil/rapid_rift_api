@@ -35,7 +35,7 @@ def create_tables_from_data_models(ctx: typer.Context):
 
 @app.command()
 def start_server(
-    host: str = typer.Option(default="no2-pphdpgate-6", help="hostname"),
+    host: str = typer.Option(default="127.0.0.1", help="hostname"),
     port: int = typer.Option(default=8000, help="port number"),
 ):
     import uvicorn
