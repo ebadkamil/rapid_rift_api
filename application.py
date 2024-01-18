@@ -5,7 +5,6 @@ import typer
 from src.connectors.connection import Connector
 from src.connectors.constants import DbTypes
 
-
 app = typer.Typer()
 
 
@@ -28,6 +27,7 @@ def get_table_names(ctx: typer.Context):
 @app.command()
 def create_tables_from_data_models(ctx: typer.Context):
     from sqlmodel import SQLModel
+
     from src.db_models import tables
 
     SQLModel.metadata.create_all(ctx.obj.engine)
