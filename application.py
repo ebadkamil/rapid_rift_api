@@ -2,8 +2,8 @@ from pathlib import Path
 
 import typer
 
-from src.connectors.connection import Connector
-from src.connectors.constants import DbTypes
+from src.app.db.connection import Connector
+from src.app.db.constants import DbTypes
 
 app = typer.Typer()
 
@@ -12,11 +12,8 @@ app = typer.Typer()
 def set_context_object(
     ctx: typer.Context,
     db_type: DbTypes,
-    authentication: Path = typer.Argument(
-        ..., exists=True, file_okay=True, readable=True
-    ),
 ):
-    ctx.obj = Connector(db_type, authentication)
+    ctx.obj = Connector(db_type)
 
 
 @app.command()

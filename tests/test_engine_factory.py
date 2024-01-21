@@ -1,34 +1,26 @@
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import patch
 
 import pytest
 
-from src.connectors.constants import DbTypes
-from src.connectors.engine_factory import BaseEngine, EngineFactory, OracleEngine
+from src.app.core.config import Settings
+from src.app.db.constants import DbTypes
+from src.app.db.engine_factory import BaseEngine, EngineFactory, OracleEngine
 
 
-def test_base_engine_initialization(temp_authentication_file):
-    base_engine = BaseEngine(authentication=temp_authentication_file)
+def test_base_engine_initialization(valid_oracle_env_variable):
+    base_engine = BaseEngine()
 
-    assert "user" in base_engine.config
-    assert "password" in base_engine.config
-    assert "host" in base_engine.config
-    assert "port" in base_engine.config
-    assert "service" in base_engine.config
-    assert "encoding" in base_engine.config
-
-
-def test_oracle_engine_raises_value_error_for_invalid_config(
-    invalid_authentication_file,
-):
-    with pytest.raises(
-        ValueError, match="Missing or invalid configurations"
-    ) as exc_info:
-        OracleEngine(authentication=invalid_authentication_file)
+    assert "ORACLE_SERVER" in base_engine.config
+    assert "ORACLE_PORT" in base_engine.config
+    assert "ORACLE_USER" in base_engine.config
+    assert "ORACLE_PASSWORD" in base_engine.config
+    assert "ORACLE_SERVICE" in base_engine.config
+    assert "ORACLE_ENCODING" in base_engine.config
 
 
 @patch("sqlmodel.create_engine")
-def test_oracle_engine_get_engine(mock_sql_create_engine, temp_authentication_file):
-    oracle_engine = OracleEngine(authentication=temp_authentication_file)
+def test_oracle_engine_get_engine(mock_sql_create_engine, valid_oracle_env_variable):
+    oracle_engine = OracleEngine()
     oracle_engine.get_engine()
     mock_sql_create_engine.assert_called_once_with(
         f"oracle+cx_oracle://test_user:test_pass@test_host:test_port/?service_name=test_service&test_encoding"

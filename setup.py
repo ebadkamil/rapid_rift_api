@@ -34,6 +34,7 @@ setup(
         "sqlmodel",
         "pyyaml",
         "cx_oracle",
+        "pydantic_settings",
         "typer[all]"
         ],
     extras_require={
