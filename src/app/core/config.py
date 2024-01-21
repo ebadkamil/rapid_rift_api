@@ -2,6 +2,8 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    API_V1_STR: str = "/api/v1"
+
     ORACLE_SERVER: str
     ORACLE_PORT: str
     ORACLE_USER: str
@@ -12,7 +14,4 @@ class Settings(BaseSettings):
     SQLITE_DATABASE_FILE_NAME: str = ""
 
 
-try:
-    settings = Settings()
-except Exception as ex:
-    pass
+settings = Settings()

@@ -37,7 +37,7 @@ def start_server(
 ):
     import uvicorn
 
-    uvicorn.run("src.api.server_application:server", host=host, port=port, reload=True)
+    uvicorn.run("src.app.main:app", host=host, port=port, reload=True)
 
 
 if __name__ == "__main__":
