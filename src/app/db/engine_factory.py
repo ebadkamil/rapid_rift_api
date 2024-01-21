@@ -1,26 +1,12 @@
-from pathlib import Path
-from typing import Dict, Optional
-
 import sqlmodel
-from yaml import safe_load
 
+from src.app.core.config import Settings
 from src.app.db.constants import DbTypes
 
 
-def read_config(filepath: Path) -> Dict[str, str]:
-    try:
-        with open(filepath, "r") as file:
-            setup_yaml = safe_load(file)
-    except FileNotFoundError as error:
-        raise FileNotFoundError(
-            f"{filepath} is not a valid DB config filepath, {error}"
-        )
-    return setup_yaml
-
-
 class BaseEngine:
-    def __init__(self, authentication):
-        self.config = read_config(authentication)
+    def __init__(self):
+        self.config = Settings().model_dump()
         if not self.validate_config():
             raise ValueError(f"Missing or invalid configurations: {self.config}")
 
@@ -32,37 +18,31 @@ class BaseEngine:
 
 
 class OracleEngine(BaseEngine):
-    def __init__(self, authentication):
-        super().__init__(authentication)
-
     def get_engine(self):
         return sqlmodel.create_engine(
-            f"oracle+cx_oracle://{self.config['user']}:{self.config['password']}@{self.config['host']}:{self.config['port']}/?service_name={self.config['service']}&{self.config['encoding']}"
+            f"oracle+cx_oracle://{self.config['ORACLE_USER']}:{self.config['ORACLE_PASSWORD']}@{self.config['ORACLE_SERVER']}:{self.config['ORACLE_PORT']}/?service_name={self.config['ORACLE_SERVICE']}&{self.config['ORACLE_ENCODING']}"
         )
 
     def validate_config(self):
         required_configurations = [
-            "user",
-            "password",
-            "host",
-            "port",
-            "service",
-            "encoding",
+            "ORACLE_USER",
+            "ORACLE_PASSWORD",
+            "ORACLE_SERVER",
+            "ORACLE_PORT",
+            "ORACLE_SERVICE",
+            "ORACLE_ENCODING",
         ]
         return all([var in self.config for var in required_configurations])
 
 
 class SqliteEngine(BaseEngine):
-    def __init__(self, authentication):
-        super().__init__(authentication)
-
     def get_engine(self):
         return sqlmodel.create_engine(
-            f"sqlite:///{self.config['database_file_name']}", echo=True
+            f"sqlite:///{self.config['SQLITE_DATABASE_FILE_NAME']}", echo=True
         )
 
     def validate_config(self):
-        return "database_file_name" in self.config
+        return "SQLITE_DATABASE_FILE_NAME" in self.config
 
 
 class EngineFactory:

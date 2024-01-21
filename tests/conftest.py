@@ -1,38 +1,22 @@
-import tempfile
-from pathlib import Path
+import os
 
 import pytest
-import yaml
 
 
 @pytest.fixture
-def temp_authentication_file():
-    temp_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
-    auth_data = {
-        "user": "test_user",
-        "password": "test_pass",
-        "host": "test_host",
-        "port": "test_port",
-        "service": "test_service",
-        "encoding": "test_encoding",
+def valid_oracle_env_variable():
+    env_variables = {
+        "ORACLE_SERVER": "test_host",
+        "ORACLE_PORT": "test_port",
+        "ORACLE_USER": "test_user",
+        "ORACLE_PASSWORD": "test_pass",
+        "ORACLE_SERVICE": "test_service",
+        "ORACLE_ENCODING": "test_encoding",
     }
-    yaml.dump(auth_data, temp_file)
-    temp_file.close()
 
-    yield Path(temp_file.name)
-    Path(temp_file.name).unlink()
+    for key, value in env_variables.items():
+        os.environ[key] = value
 
-
-@pytest.fixture
-def invalid_authentication_file():
-    temp_file = tempfile.NamedTemporaryFile(mode="w", delete=False)
-    auth_data = {
-        "incorrect_user_key": "test_user",
-        "password": "test_pass",
-        "encoding": "test_encoding",
-    }
-    yaml.dump(auth_data, temp_file)
-    temp_file.close()
-
-    yield Path(temp_file.name)
-    Path(temp_file.name).unlink()
+    yield
+    for env_var in env_variables:
+        del os.environ[env_var]

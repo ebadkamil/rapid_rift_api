@@ -1,9 +1,9 @@
-from typing import List, Union, Annotated
+from typing import Annotated, List, Union
+
 from fastapi import FastAPI, Query
+from pydantic import BaseModel
 
 from src.app.models import Product_Type
-
-from pydantic import BaseModel
 
 
 class Item(BaseModel):

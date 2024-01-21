@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from sqlmodel import Session, inspect
 
 from src.app.db.constants import DbTypes
@@ -7,10 +5,8 @@ from src.app.db.engine_factory import EngineFactory
 
 
 class Connector:
-    def __init__(self, db_type: DbTypes, authentication: Path) -> None:
-        self._engine = EngineFactory.from_database_type(db_type)(
-            authentication
-        ).get_engine()
+    def __init__(self, db_type: DbTypes) -> None:
+        self._engine = EngineFactory.from_database_type(db_type)().get_engine()
 
         self._inspector = inspect(self._engine)
         self.session = Session(self._engine)
