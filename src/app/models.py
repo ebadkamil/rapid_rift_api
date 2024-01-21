@@ -3,7 +3,15 @@ from typing import Optional
 
 from sqlmodel import Column, Enum, Field, SQLModel
 
-from src.db_models.constants import Status
+
+from enum import Enum
+
+
+class Status(Enum):
+    GREEN = "green"
+    RED = "red"
+    YELLOW = "yellow"
+
 
 
 class Product_Type(SQLModel, table=True):
