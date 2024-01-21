@@ -1,9 +1,9 @@
-from unittest.mock import MagicMock, PropertyMock, patch
+from unittest.mock import patch
 
 import pytest
 
-from src.connectors.constants import DbTypes
-from src.connectors.engine_factory import BaseEngine, EngineFactory, OracleEngine
+from src.app.db.constants import DbTypes
+from src.app.db.engine_factory import BaseEngine, EngineFactory, OracleEngine
 
 
 def test_base_engine_initialization(temp_authentication_file):

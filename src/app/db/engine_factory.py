@@ -4,7 +4,7 @@ from typing import Dict, Optional
 import sqlmodel
 from yaml import safe_load
 
-from src.connectors.constants import DbTypes
+from src.app.db.constants import DbTypes
 
 
 def read_config(filepath: Path) -> Dict[str, str]:

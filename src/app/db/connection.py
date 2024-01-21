@@ -2,8 +2,8 @@ from pathlib import Path
 
 from sqlmodel import Session, inspect
 
-from src.connectors.constants import DbTypes
-from src.connectors.engine_factory import EngineFactory
+from src.app.db.constants import DbTypes
+from src.app.db.engine_factory import EngineFactory
 
 
 class Connector:

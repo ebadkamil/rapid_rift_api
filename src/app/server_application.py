@@ -1,8 +1,7 @@
 from typing import List, Union, Annotated
 from fastapi import FastAPI, Query
 
-from src.db_models.constants import Status
-from src.db_models.tables import Product_Type
+from src.app.models import Product_Type
 
 from pydantic import BaseModel
 
