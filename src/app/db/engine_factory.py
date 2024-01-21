@@ -1,12 +1,12 @@
 import sqlmodel
 
-from src.app.core.config import Settings
+from src.app.core.config import settings
 from src.app.db.constants import DbTypes
 
 
 class BaseEngine:
     def __init__(self):
-        self.config = Settings().model_dump()
+        self.config = settings.model_dump()
         if not self.validate_config():
             raise ValueError(f"Missing or invalid configurations: {self.config}")
 
