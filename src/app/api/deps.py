@@ -1,10 +1,9 @@
 from fastapi import Depends
+from sqlmodel import Session, inspect
 from typing_extensions import Annotated
 
 from src.app.core.config import settings
 from src.app.db.connection import Connector
-from sqlmodel import Session, inspect
-
 
 connector = Connector(settings.DBTYPE)
 

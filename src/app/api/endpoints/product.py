@@ -1,6 +1,6 @@
 from fastapi import APIRouter
-from src.app.api.deps import SessionDep, InsepectDep
 
+from src.app.api.deps import InsepectDep, SessionDep
 
 router = APIRouter()
 
