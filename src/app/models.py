@@ -19,7 +19,7 @@ class Product_Type(SQLModel, table=True):
 class Production_Line(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     line_number: int
-    status: Status = Field(sa_column=Column(Enum(Status)))
+    status: Status
     last_update_timestamp: datetime
 
 

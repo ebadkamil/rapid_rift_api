@@ -25,7 +25,7 @@ def get_table_names(ctx: typer.Context):
 def create_tables_from_data_models(ctx: typer.Context):
     from sqlmodel import SQLModel
 
-    from src.db_models import tables
+    from src.app import models
 
     SQLModel.metadata.create_all(ctx.obj.engine)
 
