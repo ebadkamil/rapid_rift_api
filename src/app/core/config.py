@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     ORACLE_SERVICE: str = ""
     ORACLE_ENCODING: str = ""
 
-    SQLITE_DATABASE_FILE_NAME: str = ""
+    SQLITE_DATABASE_FILE_NAME: str = "database.db"
 
     DBTYPE: DbTypes = DbTypes.SQLITE
 
