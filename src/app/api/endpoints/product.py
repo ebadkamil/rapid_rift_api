@@ -6,8 +6,8 @@ router = APIRouter()
 
 
 @router.get("/tables")
-def read_product_types(inspector: InsepectDep, token: SecurityDep):
-    return {f"Available tables {token}": inspector.get_table_names()}
+def read_product_types(inspector: InsepectDep):
+    return {f"Available tables": inspector.get_table_names()}
 
 
 @router.get("/items")
