@@ -7,7 +7,7 @@ from src.app.core.config import settings
 from src.app.db.connection import Connector
 
 connector = Connector(settings.DBTYPE)
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/token")
 
 
 def get_session():
