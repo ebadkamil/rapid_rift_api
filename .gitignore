@@ -7,3 +7,4 @@ env*
 *.zip
 !.gitignore
 !.github
+!.pre-commit-config.yaml
