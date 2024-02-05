@@ -35,7 +35,9 @@ setup(
         "pyyaml",
         "cx_oracle",
         "pydantic_settings",
-        "typer[all]"
+        "typer[all]",
+        "passlib[bcrypt]",
+        "python-jose"
         ],
     extras_require={
         "test": [
