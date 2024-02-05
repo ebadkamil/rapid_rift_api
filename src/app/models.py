@@ -3,6 +3,7 @@ from enum import Enum
 from typing import Optional, Union
 
 from sqlmodel import Column, Enum, Field, SQLModel
+from pydantic import EmailStr
 
 
 class Status(Enum):
@@ -37,9 +38,9 @@ class Mapping(SQLModel, table=True):
 class User(SQLModel):
     id: Optional[int] = Field(default=None, primary_key=True)
     username: str
-    email: Union[str, None] = None
+    email: EmailStr = Field(unique=True, index=True)
     full_name: Union[str, None] = None
-    disabled: Union[bool, None] = None
+    is_active: bool = True
 
 
 class UserInDb(User):
