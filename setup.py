@@ -34,6 +34,7 @@ setup(
         "sqlmodel",
         "pyyaml",
         "cx_oracle",
+        "pydantic[email]",
         "pydantic_settings",
         "typer[all]",
         "passlib[bcrypt]",
