@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from typing_extensions import Annotated
 
 from src.app.api.deps import SecurityDep
-from src.app.models import UserInDb
+from src.app.models import User
 
 router = APIRouter()
 
@@ -28,7 +28,7 @@ fake_users_db = {
 def get_user(db, username: str):
     if username in db:
         user_dict = db[username]
-        return UserInDb(**user_dict)
+        return User(**user_dict)
 
 
 def fake_decode_token(token):
@@ -48,7 +48,7 @@ async def get_current_user(token: SecurityDep):
 
 
 async def get_current_active_user(
-    current_user: Annotated[UserInDb, Depends(get_current_user)]
+    current_user: Annotated[User, Depends(get_current_user)]
 ):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
@@ -60,7 +60,7 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
     user_dict = fake_users_db.get(form_data.username)
     if not user_dict:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
-    user = UserInDb(**user_dict)
+    user = User(**user_dict)
     password = form_data.password
     if not password == user.password:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
@@ -70,6 +70,6 @@ async def login(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]):
 
 @router.get("/users/me")
 async def read_users_me(
-    current_user: Annotated[UserInDb, Depends(get_current_active_user)]
+    current_user: Annotated[User, Depends(get_current_active_user)]
 ):
     return current_user
