@@ -36,7 +36,6 @@ class Mapping(SQLModel, table=True):
 
 
 class UserBase(SQLModel):
-    id: Optional[int] = Field(default=None, primary_key=True)
     email: EmailStr = Field(unique=True, index=True, sa_type=AutoString)
     full_name: Union[str, None] = None
     is_active: bool = True
@@ -44,6 +43,7 @@ class UserBase(SQLModel):
 
 
 class User(UserBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
     hashed_password: str
 
 
