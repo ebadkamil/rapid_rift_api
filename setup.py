@@ -38,7 +38,8 @@ setup(
         "pydantic_settings",
         "typer[all]",
         "passlib[bcrypt]",
-        "python-jose"
+        "python-jose",
+        "python-multipart"
         ],
     extras_require={
         "test": [
