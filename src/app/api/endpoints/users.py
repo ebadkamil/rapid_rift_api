@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 
 from src.app.api.deps import InsepectDep, SecurityDep, SessionDep
-from src.app.models import UserCreate
 from src.app.crud.users import create_user
+from src.app.models import UserCreate
 
 router = APIRouter()
 

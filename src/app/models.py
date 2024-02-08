@@ -2,8 +2,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional, Union
 
-from sqlmodel import Column, Enum, Field, SQLModel, AutoString
 from pydantic import EmailStr
+from sqlmodel import AutoString, Column, Enum, Field, SQLModel
 
 
 class Status(Enum):

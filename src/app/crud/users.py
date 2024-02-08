@@ -1,7 +1,7 @@
-from sqlmodel import Session, select
-from src.app.models import UserCreate, User
 from passlib.context import CryptContext
+from sqlmodel import Session, select
 
+from src.app.models import User, UserCreate
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -21,4 +21,3 @@ def create_user(user_create: UserCreate, session: Session):
     session.commit()
     session.refresh(db_obj)
     return db_obj
-
