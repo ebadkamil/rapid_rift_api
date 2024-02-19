@@ -2,7 +2,8 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional, Union
 
-from sqlmodel import Column, Enum, Field, SQLModel
+from pydantic import EmailStr
+from sqlmodel import AutoString, Column, Enum, Field, SQLModel
 
 
 class Status(Enum):
@@ -34,13 +35,19 @@ class Mapping(SQLModel, table=True):
     order_id: Optional[int] = Field(default=None, foreign_key="order.id")
 
 
-class User(SQLModel):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    username: str
-    email: Union[str, None] = None
+class UserBase(SQLModel):
+    email: EmailStr = Field(unique=True, index=True, sa_type=AutoString)
     full_name: Union[str, None] = None
-    disabled: Union[bool, None] = None
+    is_active: bool = True
+    is_superuser: bool = False
 
 
-class UserInDb(User):
+class User(UserBase, table=True):
+    id: Optional[int] = Field(default=None, primary_key=True)
+    hashed_password: str
+
+
+class UserCreate(SQLModel):
+    email: EmailStr
     password: str
+    full_name: Union[str, None] = None

@@ -34,8 +34,11 @@ setup(
         "sqlmodel",
         "pyyaml",
         "cx_oracle",
+        "pydantic[email]",
         "pydantic_settings",
-        "typer[all]"
+        "typer[all]",
+        "passlib[bcrypt]",
+        "python-jose"
         ],
     extras_require={
         "test": [
