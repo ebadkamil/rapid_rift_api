@@ -51,3 +51,12 @@ class UserCreate(SQLModel):
     email: EmailStr
     password: str
     full_name: Union[str, None] = None
+
+
+class Token(SQLModel):
+    access_token: str
+    token_type: str = "bearer"
+
+
+class TokenPayload(SQLModel):
+    sub: Union[int, None] = None
