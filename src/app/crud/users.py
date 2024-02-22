@@ -21,3 +21,20 @@ def create_user(user_create: UserCreate, session: Session):
     session.commit()
     session.refresh(db_obj)
     return db_obj
+
+
+def get_user_by_email(session: Session, email: str):
+    statement = select(User).where(User.email == email)
+    user = session.exec(statement).first()
+    return user
+
+
+def authenticate_user(session: Session, email: str, password: str):
+    user = get_user_by_email(session, email)
+    if not user:
+        return
+    verify = verify_password(password, user.hashed_password)
+    if not verify:
+        return
+
+    return user
