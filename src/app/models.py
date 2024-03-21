@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Optional, Union
 
 from pydantic import EmailStr
-from sqlmodel import AutoString, Column, Enum, Field, SQLModel
+from sqlmodel import AutoString, Field, SQLModel
 
 
 class Status(Enum):

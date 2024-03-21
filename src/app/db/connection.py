@@ -1,4 +1,4 @@
-from sqlmodel import Session, inspect
+from sqlmodel import inspect
 
 from src.app.db.constants import DbTypes
 from src.app.db.engine_factory import EngineFactory

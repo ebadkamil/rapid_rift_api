@@ -11,7 +11,7 @@ class BaseEngine:
             raise ValueError(f"Missing or invalid configurations: {self.config}")
 
     def get_engine(self):
-        raise NotImplementedError(f"Engine not implemented")
+        raise NotImplementedError("Engine not implemented")
 
     def validate_config(self):
         return True

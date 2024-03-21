@@ -1,7 +1,7 @@
-from datetime import datetime, timedelta, timezone
-from typing import Annotated, Union
+from datetime import datetime, timedelta
+from typing import Union
 
-from jose import JWTError, jwt
+from jose import jwt
 
 from src.app.core.config import settings
 
