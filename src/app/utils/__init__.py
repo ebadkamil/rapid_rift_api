@@ -17,5 +17,4 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     encoded_jwt = jwt.encode(
         to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM
     )
-    print("Encoded JWT token: ", encoded_jwt)
     return encoded_jwt

@@ -32,7 +32,6 @@ async def get_current_user(session: SessionDep, token: SecurityDep):
         payload = jwt.decode(
             token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM]
         )
-        print("PAY LOAD: ", payload)
         token_data = TokenPayload(**payload)
     except (jwt.JWTError, ValidationError):
         raise HTTPException(
